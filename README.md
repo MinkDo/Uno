@@ -1,5 +1,5 @@
 How to use
-	Cài Javamail 
+	Cài Javamail
  	Cài Java sql connection
   	
 
