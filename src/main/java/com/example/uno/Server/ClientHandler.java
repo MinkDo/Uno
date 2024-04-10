@@ -52,7 +52,8 @@ public class ClientHandler implements Runnable {
 
                 // Phân tích và xử lý yêu cầu từ client
                 if (clientRequest.equalsIgnoreCase("receive")) {
-                    receiveEmail();
+                    EmailReceiver emailReceiver = new EmailReceiver();
+                    emailReceiver.receiveEmail();
                 } else if (clientRequest.equalsIgnoreCase("send")) {
                     sendEmail();
                 } else {
@@ -77,48 +78,7 @@ public class ClientHandler implements Runnable {
             }
         }
     }
-    private void receiveEmail() {
-        try {
-            // Thiết lập cấu hình cho kết nối IMAP
-            Properties props = new Properties();
-            props.setProperty("mail.store.protocol", "imap");
-            props.setProperty("mail.imap.host", "imap.example.com");
-            props.setProperty("mail.imap.port", "993");
-            props.setProperty("mail.imap.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.setProperty("mail.imap.socketFactory.fallback", "false");
 
-            // Tạo phiên làm việc với máy chủ IMAP
-            Session session = Session.getDefaultInstance(props);
-            Store store = session.getStore("imap");
-            store.connect("imap.example.com", "your-username", "your-password");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/emaildb", "username", "password");
-
-            // Mở thư mục INBOX và lấy ra tất cả email
-            Folder inbox = store.getFolder("INBOX");
-            inbox.open(Folder.READ_WRITE);
-            Message[] messages = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
-
-            // Xử lý từng email nhận được (ở đây là in ra tiêu đề của email)
-            for (Message message : messages) {
-                // Lấy thông tin của email
-                String subject = message.getSubject();
-                String sender = InternetAddress.toString(message.getFrom());
-
-                // Lưu thông tin email vào cơ sở dữ liệu
-                saveEmailToDatabase(connection, sender, subject);
-            }
-
-            // Đóng kết nối IMAP
-            inbox.close(false);
-            store.close();
-
-            // Gửi phản hồi cho client để xác nhận việc nhận email thành công
-            out.println("Server: Email(s) received successfully.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            out.println("Server: Failed to receive email.");
-        }
-    }
 
     private String encryptContent(String content, PublicKey publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException,
             InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
@@ -128,20 +88,7 @@ public class ClientHandler implements Runnable {
         return Base64.getEncoder().encodeToString(encryptedBytes);
     }
 
-    private void saveEmailToDatabase(Connection connection, String sender, String subject) {
-        try {
-            // Tạo câu lệnh SQL để chèn dữ liệu vào cơ sở dữ liệu
-            String sql = "INSERT INTO emails (sender, subject) VALUES (?, ?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, sender);
-            statement.setString(2, subject);
 
-            // Thực thi câu lệnh SQL
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void sendEmail() {
         // Triển khai logic để gửi email đến client hoặc đích đến khác
