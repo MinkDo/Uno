@@ -1,3 +1,8 @@
+How to use
+	Cài Javamail 
+ 	Cài Java sql connection
+  	
+
 
 Để xây dựng một máy chủ email an toàn, bạn có thể cần triển khai các class sau:
 
