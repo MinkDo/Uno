@@ -55,7 +55,9 @@ public class ClientHandler implements Runnable {
                     EmailReceiver emailReceiver = new EmailReceiver();
                     emailReceiver.receiveEmail();
                 } else if (clientRequest.equalsIgnoreCase("send")) {
-                    sendEmail();
+                    EmailSender emailSender = new EmailSender();
+
+                    emailSender.sendEmail("","","");
                 } else {
                     // Đáp ứng yêu cầu không hợp lệ từ client
                     out.println("Server: Invalid request.");
@@ -90,10 +92,5 @@ public class ClientHandler implements Runnable {
 
 
 
-    private void sendEmail() {
-        // Triển khai logic để gửi email đến client hoặc đích đến khác
-        // Lấy dữ liệu email từ client (tiêu đề, nội dung, người nhận, ...)
-        // Gửi email đi và xác nhận việc gửi email thành công cho client
-        out.println("Server: Email sent successfully.");
-    }
+
 }

@@ -11,20 +11,22 @@ import javax.mail.internet.*;
 public class EmailSender {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/uno";
     private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "";
+    private static final String DB_PASSWORD = "your-db-password";
+    private static final String EMAIL_USERNAME = "your-email@example.com";
+    private static final String EMAIL_PASSWORD = "your-email-password";
 
     public static void sendEmail(String recipient, String subject, String body) {
         // Thiết lập cấu hình cho kết nối SMTP
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.example.com"); // Địa chỉ SMTP server của bạn
+        props.put("mail.smtp.host", "smtp.gmail.com"); // Địa chỉ SMTP server của bạn
         props.put("mail.smtp.port", "587"); // Cổng SMTP server của bạn
 
         // Tạo phiên làm việc với máy chủ SMTP
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("your-email@example.com", "your-password");
+                return new PasswordAuthentication(EMAIL_USERNAME, EMAIL_PASSWORD);
             }
         });
 
@@ -44,7 +46,7 @@ public class EmailSender {
 
                 // Tạo đối tượng MimeMessage để xây dựng email
                 Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("your-email@example.com")); // Địa chỉ email người gửi
+                message.setFrom(new InternetAddress(EMAIL_USERNAME)); // Địa chỉ email người gửi
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient)); // Địa chỉ email người nhận
                 message.setSubject(subject); // Chủ đề của email
                 message.setText(body); // Nội dung của email
@@ -54,9 +56,12 @@ public class EmailSender {
 
                 System.out.println("Email sent successfully.");
             }
-        } catch (Exception e) {
+        } catch (MessagingException e) {
             e.printStackTrace();
             System.out.println("Failed to send email.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Database connection error.");
         }
     }
 

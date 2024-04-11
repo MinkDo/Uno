@@ -4,6 +4,7 @@ module com.example.uno {
     requires java.mail;
     requires activation;
     requires java.sql;
+    requires com.google.gson;
 
 
     opens com.example.uno to javafx.fxml;
