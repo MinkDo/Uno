@@ -57,7 +57,7 @@ public class ClientHandler implements Runnable {
                 } else if (clientRequest.equalsIgnoreCase("send")) {
                     EmailSender emailSender = new EmailSender();
 
-                    emailSender.sendEmail("","","");
+                    //emailSender.sendEmail("","","");
                 } else {
                     // Đáp ứng yêu cầu không hợp lệ từ client
                     out.println("Server: Invalid request.");
