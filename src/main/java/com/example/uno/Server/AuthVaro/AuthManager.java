@@ -1,4 +1,4 @@
-package com.example.uno.Server;
+package com.example.uno.Server.AuthVaro;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -52,15 +52,22 @@ public class AuthManager {
         }
         return null;
     }
-
     public static void main(String[] args) {
-        // Bạn có thể thử nghiệm phương thức login ở đây
-        // Ví dụ:
-        // String userName = login("your_request_data");
-        // if (userName != null) {
-        //     System.out.println("Authenticated user: " + userName);
-        // } else {
-        //     System.out.println("Authentication failed.");
-        // }
+        // Tạo dữ liệu form giả lập
+        Map<String, String[]> formData = new HashMap<>();
+        formData.put("data", new String[] { "{\"request\": \"eyJ1c2VybmFtZSI6ICJhZG1pbiIsICJwYXNzd29yZCI6ICJhZG1pbiJ9\"}" });
+
+        // Xử lý dữ liệu đăng nhập
+        AuthManager authManager = new AuthManager();
+        String username = authManager.flaskLogin(formData);
+
+        // Xử lý kết quả
+        if (username != null) {
+            System.out.println("Đăng nhập thành công với tên: " + username);
+        } else {
+            System.out.println("Đăng nhập thất bại!");
+        }
     }
+
+
 }
