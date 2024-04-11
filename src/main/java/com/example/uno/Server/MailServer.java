@@ -65,7 +65,8 @@ public class MailServer {
 
     public static void main(String[] args){
         MailServer mailServer = new MailServer(25);
-        mailServer.authenticateUser("hahah","jajaja");
+        mailServer.start();
+      //  mailServer.authenticateUser("hahah","jajaja");
     }
 
 }

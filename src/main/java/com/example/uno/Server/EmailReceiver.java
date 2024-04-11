@@ -10,12 +10,12 @@ import java.util.Arrays;
 import java.util.Properties;
 
 public class EmailReceiver {
-    private static final String EMAIL_HOST = "imap.example.com";
+    private static final String EMAIL_HOST = "imap.gmail.com";
     private static final String EMAIL_USERNAME = "your-username";
     private static final String EMAIL_PASSWORD = "your-password";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/emaildb";
-    private static final String DB_USERNAME = "username";
-    private static final String DB_PASSWORD = "password";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/uno";
+    private static final String DB_USERNAME = "root";
+    private static final String DB_PASSWORD = "";
     private static final int BATCH_SIZE = 10;
 
     public void receiveEmail() {
